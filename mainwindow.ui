@@ -215,7 +215,7 @@
     </widget>
     <widget class="QWidget" name="tab_adjust">
      <attribute name="title">
-      <string>Adjust</string>
+      <string>WiringPi</string>
      </attribute>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">

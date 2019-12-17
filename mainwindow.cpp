@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow), color(new Color), storage(new Storage), adjust(new Adjust),
+      ui(new Ui::MainWindow), color(new Color), storage(new Storage), wiringPi(new WiringPi),
       prev1(0), prev2(0)
 {
     cout << "Mainwindow constructor start!" << endl;
@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(color, &Color::pixmapReady, this, &MainWindow::handlePixmap);
     connect(color, &Color::frameReady, storage, &Storage::handleFrame);
+    connect(wiringPi, &WiringPi::cdsReady, color, &Color::handleCds);
 //    connect(color, &Color::finished, color, &QObject::deleteLater);
 //    connect(storage, &Storage::finished, storage, &QObject::deleteLater);
 }
@@ -147,13 +148,15 @@ void MainWindow::on_btn_cds_clicked()
 {
     if (ui->btn_cds->text().toStdString() == "CDS-On")
     {
-        adjust->setFlag(true);
-        adjust->start();
+        wiringPi->setFlag(true);
+        wiringPi->start();
+        color->setIsCds(true);
         ui->btn_cds->setText("CDS-Off");
     }
     else
     {
-        adjust->setFlag(false);
+        color->setIsCds(false);
+        wiringPi->setFlag(false);
         ui->btn_cds->setText("CDS-On");
     }
 }

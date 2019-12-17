@@ -13,7 +13,7 @@ void Color::run()
 
 Color::Color(QObject *parent)
     : QThread(parent),
-      isRecord(false)
+      isRecord(false), isCds(false)
 {
     cout << "Color Obejct Created!" << endl;
 }
@@ -43,6 +43,10 @@ void Color::setIsRecord(bool value)
     isRecord = value;
 }
 
+void Color::setIsCds(bool value)
+{
+    isCds = value;
+}
 void Color::cameraOn()
 {
     if (!capture.isOpened())
@@ -67,6 +71,9 @@ void Color::display()
     capture >> frame;
     if (!frame.empty())
     {
+        if (isCds)
+            frame = frame + vec;
+
         if (flag == DEFAULT);
         else
         {
@@ -122,5 +129,13 @@ void Color::splitToRGB()
         zero.copyTo(bgr[2]);
         merge(bgr, 3, frame);
     }
+}
 
+void Color::handleCds(const int& result)
+{
+    int temp = result/2;
+    if (temp > 255)
+        vec[0] = vec[1] = vec[2] = 255-100;
+    else
+        vec[0] = vec[1] = vec[2] = temp-100;
 }

@@ -16,7 +16,7 @@ private:
     Ui::MainWindow *ui;
     Color* color;
     Storage* storage;
-    Adjust* adjust;
+    WiringPi* wiringPi;
     QGraphicsPixmapItem pixmap;
     int prev1, prev2;
 

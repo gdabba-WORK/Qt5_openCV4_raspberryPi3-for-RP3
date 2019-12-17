@@ -12,9 +12,11 @@ class Color : public QThread
 private:
     VideoCapture capture;
     Mat frame, bgr[3], zero;
+    Vec3i vec;
 public:
     enum category flag;
     bool isRecord;
+    bool isCds;
 
 private:
     void run() override;
@@ -28,6 +30,7 @@ public:
 
     void setFlag(enum category);
     void setIsRecord(bool);
+    void setIsCds(bool);
 
     void cameraOn();
     void cameraOff();
@@ -38,5 +41,7 @@ signals:
     void pixmapReady(const QPixmap& result);
     void frameReady(const QImage& result);
 
+public slots:
+    void handleCds(const int& result);
 };
 #endif // COLOR_PROCESSOR_HPP
