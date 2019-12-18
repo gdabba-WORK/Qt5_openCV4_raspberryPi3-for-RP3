@@ -134,12 +134,16 @@ void MainWindow::on_btn_record_clicked()
         storage->recorderOn();
         storage->start();
         color->setIsRecord(true);
+        wiringPi->setIsLED(true);
+        if(!wiringPi->getIsRun())
+            wiringPi->start();
         ui->btn_record->setText("Record-Off");
     }
     else
     {
         color->setIsRecord(false);
         storage->recorderOff();
+        wiringPi->setIsLED(false);
         ui->btn_record->setText("Record-On");
     }
 }
@@ -148,15 +152,16 @@ void MainWindow::on_btn_cds_clicked()
 {
     if (ui->btn_cds->text().toStdString() == "CDS-On")
     {
-        wiringPi->setFlag(true);
-        wiringPi->start();
+        wiringPi->setIsCDS(true);
+        if(!wiringPi->getIsRun())
+            wiringPi->start();
         color->setIsCds(true);
         ui->btn_cds->setText("CDS-Off");
     }
     else
     {
         color->setIsCds(false);
-        wiringPi->setFlag(false);
+        wiringPi->setIsCDS(false);
         ui->btn_cds->setText("CDS-On");
     }
 }

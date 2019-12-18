@@ -22,6 +22,9 @@ public:
     void recorderOff();
 //    void record();
 
+signals:
+    void recordReady(void);
+
 public slots:
     void handleFrame(const QImage& result);
 };

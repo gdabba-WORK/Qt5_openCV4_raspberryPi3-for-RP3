@@ -13,6 +13,7 @@ enum category {
 };
 
 #define CS_MCP3008  10
+#define LED 26
 #define SPI_CHANNEL 0
 #define SPI_SPEED   1000000
 

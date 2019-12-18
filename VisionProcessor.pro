@@ -34,7 +34,7 @@ HEADERS += \
     macro_types.hpp \
     mainwindow.hpp \
     storage_processor.hpp \
-    wirinPi_processor.hpp
+    wiringPi_processor.hpp
 
 FORMS += \
     mainwindow.ui

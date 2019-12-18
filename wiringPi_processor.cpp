@@ -1,37 +1,36 @@
-#include "wirinPi_processor.hpp"
+#include "wiringPi_processor.hpp"
 
 void WiringPi::run()
 {
+    while(isCDS || isLED)
+    {
+        isRun = true;
+        if (isCDS)
+            read_mcp3008_adc();
+        if (isLED)
+            bling();
+        msleep(500);
+    }
+    isRun = false;
+}
+
+WiringPi::WiringPi(QObject *parent)
+    : QThread(parent),
+      adcChannel(0), adcValue(0), isRun(false), isCDS(false), isLED(false)
+{
+    cout << "WiringPi Object Created!" << endl;
     if(wiringPiSetup() == -1)
     {
         cout << "Unable to start wiringPi" << endl;
-        return;
+        exit(1);
     }
-    pinMode(CS_MCP3008, OUTPUT);
     if(wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1)
     {
         cout << "wiringPiSPISetup Failed" << endl;
         return;
     }
-    while(flag)
-    {
-        adcChannel = 3;
-        adcValue = read_mcp3008_adc(adcChannel);
-        if (adcValue > 300)
-            cout << "Darkness : " << adcValue << endl;
-        else if(adcValue < 50)
-            cout << "Brightness : " << adcValue << endl;
-        else
-            cout << "Normal : " << adcValue << endl;
-        emit cdsReady(adcValue);
-        msleep(500);
-    }
-}
-
-WiringPi::WiringPi(QObject *parent)
-    : QThread(parent), adcChannel(0), adcValue(0), flag(false)
-{
-    cout << "WiringPi Object Created!" << endl;
+    pinMode(CS_MCP3008, OUTPUT);
+    pinMode(LED, OUTPUT);
 }
 
 WiringPi::~WiringPi()
@@ -39,10 +38,12 @@ WiringPi::~WiringPi()
     cout << "Color Object deleted!" << endl;
 }
 
-int WiringPi::read_mcp3008_adc(unsigned char adcChannel)
+void WiringPi::read_mcp3008_adc()
 {
     unsigned char buff[3];
-    int adcValue = 0;
+    adcValue = 0;
+    adcChannel = 3;
+
     buff[0] = 0x01;
     buff[1] = 0x80|((adcChannel & 0x07)<<4);
     buff[2] = 0x00;
@@ -51,12 +52,35 @@ int WiringPi::read_mcp3008_adc(unsigned char adcChannel)
     buff[1] = 0x03 & buff[1];
     adcValue = (buff[1]<<8) | buff[2];
     digitalWrite(CS_MCP3008, 1);
-    return adcValue;
+
+    if (adcValue > 300)
+        cout << "Darkness : " << adcValue << endl;
+    else if(adcValue < 50)
+        cout << "Brightness : " << adcValue << endl;
+    else
+        cout << "Normal : " << adcValue << endl;
+
+    emit cdsReady(adcValue);
 }
 
-void WiringPi::setFlag(bool value)
+void WiringPi::bling()
 {
-    flag = value;
+    static bool flag = false;
+    flag = !flag;
+    digitalWrite(LED, flag);
 }
 
+void WiringPi::setIsCDS(bool value)
+{
+    isCDS = value;
+}
 
+void WiringPi::setIsLED(bool value)
+{
+    isLED = value;
+}
+
+bool WirinPi::getIsRun()
+{
+    return isRun;
+}

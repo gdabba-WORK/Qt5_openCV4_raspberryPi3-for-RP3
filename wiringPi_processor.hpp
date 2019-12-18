@@ -12,7 +12,7 @@ class WiringPi : public QThread
 private:
     int adcChannel;
     int adcValue;
-    bool flag;
+    bool isRun, isCDS, isLED;
 
 private:
     void run() override;
@@ -20,8 +20,11 @@ private:
 public:
     WiringPi(QObject *parent = nullptr);
     ~WiringPi() override;
-    int read_mcp3008_adc(unsigned char adcChannel);
-    void setFlag(bool);
+    void read_mcp3008_adc();
+    void bling();
+    void setIsCDS(bool);
+    void setIsLED(bool);
+    bool getIsRun();
 
 signals:
     void cdsReady(const int& cdsValue);

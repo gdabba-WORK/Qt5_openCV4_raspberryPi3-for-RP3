@@ -24,7 +24,7 @@
 
 #include "macro_types.hpp"
 #include "color_processor.hpp"
-#include "wirinPi_processor.hpp"
+#include "wiringPi_processor.hpp"
 #include "storage_processor.hpp"
 
 #endif // INCLUDES_HPP
