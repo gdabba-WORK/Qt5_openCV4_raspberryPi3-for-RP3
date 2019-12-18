@@ -3,10 +3,7 @@
 void Storage::run()
 {
     cout << "Storage::run() excuted!" << endl;
-    while(writer.isOpened())
-    {
-
-    }
+    while(writer.isOpened());
     cout << "Storage::run() exit!" << endl;
 }
 
