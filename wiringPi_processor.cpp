@@ -80,7 +80,7 @@ void WiringPi::setIsLED(bool value)
     isLED = value;
 }
 
-bool WirinPi::getIsRun()
+bool WiringPi::getIsRun()
 {
     return isRun;
 }
