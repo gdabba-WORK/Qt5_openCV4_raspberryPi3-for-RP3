@@ -33,14 +33,9 @@ void Storage::recorderOff()
     CV_Assert(!writer.isOpened());
 }
 
-//void Storage::record()
-//{
-//    writer << frame;
-//}
-
 void Storage::handleFrame(const QImage& result)
 {
     Mat mat(result.height(), result.width(), CV_8UC3, (void *)result.constBits(), result.bytesPerLine());
     mat.copyTo(frame);
-    writer << frame;    // Storage::record()¿Í °°´Ù
+    writer << frame;
 }

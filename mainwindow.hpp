@@ -18,13 +18,12 @@ private:
     Storage* storage;
     WiringPi* wiringPi;
     QGraphicsPixmapItem pixmap;
-    int prev1, prev2;
+    int prev;
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     Color* getColor();
-
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -45,6 +44,5 @@ private slots:
     void on_btn_cds_clicked();
     void on_horizontalSlider_valueChanged(int value);
     void on_horizontalScrollBar_valueChanged(int value);
-
 };
 #endif // MAINWINDOW_HPP

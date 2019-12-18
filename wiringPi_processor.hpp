@@ -3,8 +3,6 @@
 
 #include "includes.hpp"
 
-
-
 class WiringPi : public QThread
 {
     Q_OBJECT

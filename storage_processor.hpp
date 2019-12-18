@@ -20,7 +20,6 @@ public:
     ~Storage() override;
     void recorderOn();
     void recorderOff();
-//    void record();
 
 signals:
     void recordReady(void);

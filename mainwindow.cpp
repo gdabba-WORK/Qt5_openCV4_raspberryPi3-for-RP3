@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow), color(new Color), storage(new Storage), wiringPi(new WiringPi),
-      prev1(0), prev2(0)
+      prev(0)
 {
     cout << "Mainwindow constructor start!" << endl;
     ui->setupUi(this);
@@ -15,8 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(color, &Color::pixmapReady, this, &MainWindow::handlePixmap);
     connect(color, &Color::frameReady, storage, &Storage::handleFrame);
     connect(wiringPi, &WiringPi::cdsReady, color, &Color::handleCds);
-//    connect(color, &Color::finished, color, &QObject::deleteLater);
-//    connect(storage, &Storage::finished, storage, &QObject::deleteLater);
 }
 
 MainWindow::~MainWindow()
@@ -58,30 +56,12 @@ void MainWindow::handlePixmap(const QPixmap& result)
 
 void MainWindow::on_btn_default_clicked()
 {
-//    qApp->processEvents();
     color->setFlag(DEFAULT);
 }
 
 void MainWindow::on_btn_red_clicked()
 {
     color->setFlag(RED);
-//    getProc().cameraOn();
-//    getProc().splitToRGB(2);
-//    Mat frame = getProc().getFrame();
-//    while(!frame.empty())
-//    {
-//        QImage qimg(frame.data,
-//                    frame.cols,
-//                    frame.rows,
-//                    frame.step,
-//                    QImage::Format_RGB888);
-//        pixmap.setPixmap( QPixmap::fromImage(qimg.rgbSwapped()) );
-//        ui->graphicsView->fitInView(&pixmap, Qt::KeepAspectRatio);
-
-//        qApp->processEvents();
-//        getProc().splitToRGB(2);
-//        getProc().getFrame().copyTo(frame);
-//    }
 }
 
 void MainWindow::on_btn_green_clicked()
@@ -168,8 +148,8 @@ void MainWindow::on_btn_cds_clicked()
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
-    ui->graphicsView->rotate(value-prev1);
-    prev1 = value;
+    ui->graphicsView->rotate(value-prev);
+    prev = value;
 }
 
 void MainWindow::on_horizontalScrollBar_valueChanged(int value)

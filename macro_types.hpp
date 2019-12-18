@@ -9,7 +9,6 @@ enum category {
     RED_GREEN   =   4,
     RED_BLUE    =   5,
     GREEN_BLUE  =   6,
-//    BLACK_WHITE =   7
 };
 
 #define CS_MCP3008  10
